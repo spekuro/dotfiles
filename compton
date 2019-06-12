@@ -1,7 +1,0 @@
-backend = "glx";
-paint-on-overlay = true;
-glx-no-stencil = true;
-glx-no-rebind-pixmap = true;
-vsync = "opengl-swc";
-glx-copy-from-front = false;
-glx-swap-method = "undefined";
