@@ -1,0 +1,36 @@
+# spekuro prompt theme (forked from adam1)
+# put in /usr/share/zsh/functions/Prompts
+
+prompt_spekuro_setup () {
+  setopt localoptions nowarncreateglobal
+  prompt_spekuro_symbol=">>"
+  prompt_spekuro_color1=${1:-'blue'}
+  prompt_spekuro_color2=${2:-'cyan'}
+  prompt_spekuro_color3=${3:-'green'}
+  prompt_spekuro_color4=${4:-'red'}
+
+  base_prompt="%(?.%S%F{$prompt_spekuro_color3}.%S%F{$prompt_spekuro_color4})$prompt_spekuro_symbol%s%f %T - %n@%m - "
+
+  post_prompt="%b%f%k"
+
+  setopt localoptions extendedglob
+  base_prompt_no_color="${base_prompt//(%K{[^\\\}]#\}|%k)/}"
+  post_prompt_no_color="${post_prompt//(%K{[^\\\}]#\}|%k)/}"
+
+  add-zsh-hook precmd prompt_spekuro_precmd
+}
+
+prompt_spekuro_precmd () {
+  setopt localoptions noxtrace nowarncreateglobal
+  local base_prompt_expanded_no_color base_prompt_etc
+  local prompt_length space_left
+
+  base_prompt_expanded_no_color=$(print -P "$base_prompt_no_color")
+  base_prompt_etc=$(print -P "$base_prompt%(4~|...|)%3~")
+  path_prompt="%B%F{$prompt_spekuro_color2}%(4~|...|)%3~%F{white}"
+  PS1="$base_prompt$path_prompt %# $post_prompt"
+  PS2="$base_prompt$path_prompt %_> $post_prompt"
+  PS3="$base_prompt$path_prompt ?# $post_prompt"
+}
+
+prompt_spekuro_setup "$@"
