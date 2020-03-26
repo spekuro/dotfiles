@@ -1,0 +1,13 @@
+#!/bin/bash
+
+sleep 1
+
+compton --config ~/.config/compton &
+
+sleep 1
+
+nm-applet &
+redshift-gtk &
+~/.config/awesome/xrandr.sh &
+xfce4-power-manager &
+gnome-keyring-daemon --start &
