@@ -68,7 +68,8 @@ awful.spawn.with_shell(
 -- {{{ Variable definitions
 
 local themes = {
-    "spekuro-transparent",       -- 1
+    "spekuro-home",       -- 1
+    "spekuro-work",       -- 2
 }
 
 local chosen_theme = themes[1]
@@ -82,16 +83,10 @@ local gui_editor   = os.getenv("GUI_EDITOR") or "gvim"
 local browser      = os.getenv("BROWSER") or "vivaldi"
 local scrlocker    = "slock"
 local screenprint	 = "xfce4-screenshooter"
+local powermenu		 = "~/.config/rofi/scripts/powermenu.sh"
+local xrandr			 = "~/.config/rofi/scripts/xrandr.sh"
 
 awful.util.terminal = terminal
---awful.util.tagnames = { " 1 ", " 2 ", " 3 ", " 4 ", " 5 ", " 6 ", " 7 ", " 8 "}
-awful.util.tagnames = { "[WEB]", "[BWARDN]", "[FILES]", "[AGENDA]", "[CHAT]", "[TERM1]", "[TERM2]", "[TERM3]", "[MEDIA]"}
-
-awful.layout.layouts = {
-    awful.layout.suit.fair,
-    awful.layout.suit.tile,
-    awful.layout.suit.max,
-}
 
 awful.util.taglist_buttons = my_table.join(
     awful.button({ }, 1, function(t) t:view_only() end),
@@ -371,8 +366,14 @@ globalkeys = my_table.join(
               {description = "open a terminal", group = "launcher"}),
     awful.key({ modkey, "Control" }, "r", awesome.restart,
               {description = "reload awesome", group = "awesome"}),
-    awful.key({ modkey, "Shift"   }, "q", awesome.quit,
-              {description = "quit awesome", group = "awesome"}),
+    --awful.key({ modkey, "Shift"   }, "q", awesome.quit,
+    --          {description = "quit awesome", group = "awesome"}),
+
+    awful.key({ modkey, "Shift"   }, "q", function () os.execute(powermenu) end,
+              {description = "quit awesome", group = "launcher"}),
+    awful.key({ modkey, "Shift"   }, "p", function () os.execute(xrandr) end,
+              {description = "xrandr", group = "launcher"}),
+
 
     awful.key({ altkey, "Shift"   }, "l",     function () awful.tag.incmwfact( 0.05)          end,
               {description = "increase master width factor", group = "layout"}),
@@ -415,9 +416,9 @@ globalkeys = my_table.join(
               {description = "show weather", group = "widgets"}),
 
     -- Brightness
-    awful.key({ }, "XF86MonBrightnessUp", function () os.execute("brightnessctl s +1000") end,
+    awful.key({ }, "XF86MonBrightnessUp", function () os.execute("brightnessctl s +100") end,
               {description = "+10%", group = "hotkeys"}),
-    awful.key({ }, "XF86MonBrightnessDown", function () os.execute("brightnessctl s 1000-") end,
+    awful.key({ }, "XF86MonBrightnessDown", function () os.execute("brightnessctl s 100-") end,
               {description = "-10%", group = "hotkeys"}),
 
 --[[
@@ -446,19 +447,19 @@ globalkeys = my_table.join(
         {description = "Play-Pause player", group = "hotkeys"}),
 
     -- ALSA volume control
-    awful.key({ altkey }, "Up",
+    awful.key({ }, "XF86AudioRaiseVolume",
         function ()
             os.execute(string.format("amixer -q -D pulse set %s 5%%+", beautiful.volume.channel))
             beautiful.volume.update()
         end,
         {description = "volume up", group = "hotkeys"}),
-    awful.key({ altkey }, "Down",
+    awful.key({ }, "XF86AudioLowerVolume",
         function ()
             os.execute(string.format("amixer -q -D pulse set %s 5%%-", beautiful.volume.channel))
             beautiful.volume.update()
         end,
         {description = "volume down", group = "hotkeys"}),
-    awful.key({ altkey }, "m",
+    awful.key({ }, "XF86AudioMute",
         function ()
             os.execute(string.format("amixer -q -D pulse set %s toggle", beautiful.volume.togglechannel or beautiful.volume.channel))
             beautiful.volume.update()
@@ -557,7 +558,7 @@ globalkeys = my_table.join(
 --              {description = "run prompt", group = "launcher"}),
     awful.key({ modkey }, "r",
         function ()
-            awful.util.spawn("rofi -modi drun -show drun -theme slate -lines 10", false)
+            awful.util.spawn("rofi -modi drun -show drun -theme slate -lines 8", false)
         end,
         {description = "rofi", group = "launcher"}),
 
@@ -705,62 +706,29 @@ awful.rules.rules = {
     { rule_any = { type = { "dialog", "normal" } },
       properties = { titlebars_enabled = false } },
 
-    -- Set Apps rules for screen 1
---[[
-    { rule = { class = "Vivaldi-stable" },
-      properties = { screen = 1, tag = awful.util.tagnames[1] , maximized = true } },
-
-    { rule = { class = "slack-nativefier-155c03" },
-      properties = { screen = 1, tag = awful.util.tagnames[3] , maximized = true } },
-
-    { rule = { class = "Firefox" },
-      properties = { screen = 1, tag = awful.util.tagnames[4] , maximized = true } },
-
-    -- Set Apps rules for screen 2
-    { rule = { class = "Bitwarden" },
-      properties = { screen = 2, tag = awful.util.tagnames[1] , maximized = true } },
-
-    { rule = { class = "gmail-nativefier-c57db1" },
-      properties = { screen = 2, tag = awful.util.tagnames[3] , maximized = true } },
-
-    { rule = { class = "google-agenda-connectez-vous-pour-accder-votre-planning-et-le-modifier-nativefier-5c444e" },
-      properties = { screen = 2, tag = awful.util.tagnames[3] , maximized = true } },
-
-    { rule = { class = "[Ss]potify" },
-      properties = { screen = 2, tag = awful.util.tagnames[4] , maximized = true } },
-
-    { rule = { class = "radio-paradise-nativefier-c3b445" },
-      properties = { screen = 2, tag = awful.util.tagnames[4] , maximized = true } },
-
-]]--
     { rule = { class = "Vivaldi-stable" },
       properties = { tag = awful.util.tagnames[1] , maximized = true } },
 
-    { rule = { class = "slack-nativefier-155c03" },
-      properties = { tag = awful.util.tagnames[5] , maximized = true } },
-
-    { rule = { class = "google-chat-nativefier-c476a8" },
-      properties = { tag = awful.util.tagnames[5] , maximized = true } },
-
-    { rule = { class = "Firefox" },
-      properties = { tag = awful.util.tagnames[1] , maximized = true } },
-
-    -- Set Apps rules for screen 2
-    { rule = { class = "Bitwarden" },
-      properties = { tag = awful.util.tagnames[2] , maximized = true } },
-
-    { rule = { class = "gmail-nativefier-c57db1" },
-      properties = { tag = awful.util.tagnames[4] , maximized = true } },
-
-    { rule = { class = "google-agenda-connectez-vous-pour-accder-votre-planning-et-le-modifier-nativefier-5c444e" },
-      properties = { tag = awful.util.tagnames[4] , maximized = true } },
-
     { rule = { class = "[Ss]potify" },
-      properties = { tag = awful.util.tagnames[9] , maximized = true } },
+      properties = { tag = awful.util.tagnames[5] , maximized = true } },
 
-    { rule = { class = "radio-paradise-nativefier-c3b445" },
-      properties = { tag = awful.util.tagnames[9] , maximized = true } },
+    { rule = { class = "JDownloader" },
+      properties = { tag = awful.util.tagnames[4] , maximized = true } },
 
+    { rule = { class = "Deluge-gtk" },
+      properties = { tag = awful.util.tagnames[4] , maximized = true } },
+
+    { rule = { class = "pcmanfm" },
+      properties = { tag = awful.util.tagnames[2] , maximized = false } },
+
+    --{ rule = { class = "Gnome-terminal" },
+    --  properties = { tag = awful.util.tagnames[3] , maximized = false } },
+
+    { rule = { class = "Steam" },
+      properties = { tag = awful.util.tagnames[6] } },
+
+    { rule = { class = "retroarch" },
+      properties = { tag = awful.util.tagnames[6] } },
 
 		-- Global rules
     { rule = { class = "Gimp", role = "gimp-image-window" },

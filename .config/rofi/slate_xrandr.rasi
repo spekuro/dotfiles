@@ -1,0 +1,56 @@
+configuration {
+    show-icons: false;
+}
+
+* {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-color: rgba(124, 121, 119, 0.2);
+  text-color: #7c7977;
+  spacing: 0;
+  width: 250px;
+  height: 160px;
+	border-radius: 10px 10px 10px 10px;
+	font: "Montserrat SemiBold 12";
+}
+
+inputbar {
+  border: 0 0 1px 0;
+  children: [prompt,entry];
+  border-radius: 0px 0px 0px 0px;
+}
+
+prompt {
+  border: 0 0 0 0;
+  border-radius: 0px 0px 0px 0px;
+  text-color: #BBBBBB;
+}
+
+textbox {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-color: #7c7977;
+	text-color: #BBBBBB;
+}
+
+entry {
+  border-radius: 0px 0px 0px 0px;
+  text-color: rgba(0, 0, 0, 0);
+}
+
+listview {
+  cycle: false;
+  margin: 0 0 -1px 0;
+  scrollbar: false;
+  border-radius: 0px 0px 0px 0px;
+}
+
+element {
+  border: 0 0 1px 0;
+  padding: 10px;
+  border-radius: 0px 0px 0px 0px;
+}
+
+element selected {
+  background-color: rgba(0, 0, 0, 0.2);
+  text-color: #BBBBBB;
+  border-radius: 0px 0px 0px 0px;
+}

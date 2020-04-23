@@ -1,5 +1,7 @@
 configuration {
     show-icons: true;
+    display-drun:           "";
+    drun-display-format:            "{name}";
 }
 
 * {
@@ -7,7 +9,7 @@ configuration {
   border-color: rgba(124, 121, 119, 0.2);
   text-color: #7c7977;
   spacing: 0;
-  width: 640px;
+  width: 540px;
 	border-radius: 10px 10px 10px 10px;
 	font: "Montserrat SemiBold 12";
 }
@@ -19,8 +21,8 @@ inputbar {
 }
 
 prompt {
-  padding: 10px;
-  border: 0 1px 0 0;
+  padding: 12px;
+  border: 0 0 0 0;
   border-radius: 0px 0px 0px 0px;
   text-color: #BBBBBB;
 
@@ -28,15 +30,12 @@ prompt {
 
 textbox {
   background-color: rgba(0, 0, 0, 0.2);
-  border: 0 0 1px 0;
   border-color: #7c7977;
-  padding: 8px 10px;
-  border-radius: 0px 0px 0px 0px;
 	text-color: #BBBBBB;
 }
 
 entry {
-  padding: 10px;
+  padding: 11px;
   border-radius: 0px 0px 0px 0px;
   text-color: #BBBBBB;
 }
